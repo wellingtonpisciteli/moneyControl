@@ -24,7 +24,7 @@ body{
         display: flex;
         position: relative;
         justify-content: center;
-        margin-top: 5px;
+        margin-top: 0px;
         width: 100vw;
         height: 550px;
         background-color: blue;
