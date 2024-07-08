@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Salvar Nome e Idade no LocalStorage</h2>
+    <div id="formDados">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <br>
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" required>
+        <br>
+        <button type="button" onclick="salvarDados()">Salvar</button>
+    </div>
+
+    <button id="btnVisualizar">Visualizar Todos os Dados Salvos</button>
+
+    <div id="dadosSalvos"></div>
+
+    <h2>Pesquisar por Nome</h2>
+    <input type="text" id="pesquisaNome" placeholder="Digite o nome para pesquisar">
+    <button id="btnPesquisar">Pesquisar</button>
+
+    <div id="resultadoPesquisa"></div>
+
+    <script>
+        // Função para salvar dados no localStorage
+        function salvarDados() {
+            var nome = document.getElementById("nome").value;
+            var idade = document.getElementById("idade").value;
+
+            // Salvando os dados no localStorage
+            localStorage.setItem("usuario", JSON.stringify({ nome: nome, idade: idade }));
+
+            // Limpar os campos após salvar
+            document.getElementById("nome").value = "";
+            document.getElementById("idade").value = "";
+
+            alert("Dados salvos com sucesso!");
+        }
+
+        // Função para recuperar todos os dados do localStorage e exibir na div
+        function exibirTodosDadosSalvos() {
+            var dados = localStorage.getItem("usuario");
+            if (dados) {
+                var usuario = JSON.parse(dados);
+                document.getElementById("dadosSalvos").innerHTML = "Nome: " + usuario.nome + "<br>Idade: " + usuario.idade;
+            } else {
+                document.getElementById("dadosSalvos").innerHTML = "Nenhum dado salvo.";
+            }
+        }
+
+        // Recupera todos os dados ao carregar a página
+        exibirTodosDadosSalvos();
+
+        // Event listener para o botão "Visualizar Todos os Dados Salvos"
+        document.getElementById("btnVisualizar").addEventListener("click", function() {
+            exibirTodosDadosSalvos();
+        });
+
+        // Função para pesquisar por nome nos dados salvos
+        document.getElementById("btnPesquisar").addEventListener("click", function() {
+            var pesquisa = document.getElementById("pesquisaNome").value.toLowerCase();
+            var dados = localStorage.getItem("usuario");
+            if (dados) {
+                var usuario = JSON.parse(dados);
+                if (usuario.nome.toLowerCase() === pesquisa) {
+                    document.getElementById("resultadoPesquisa").innerHTML = "Nome: " + usuario.nome + "<br>Idade: " + usuario.idade;
+                } else {
+                    document.getElementById("resultadoPesquisa").innerHTML = "Nenhum resultado encontrado para '" + pesquisa + "'.";
+                }
+            } else {
+                document.getElementById("resultadoPesquisa").innerHTML = "Nenhum dado salvo.";
+            }
+        });
+    </script>
+</body>
+</html>
